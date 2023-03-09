@@ -16,3 +16,4 @@ sqlparse==0.4.3
 tomli==2.0.1
 Pillow
 djangorestframework
+sorl-thumbnail

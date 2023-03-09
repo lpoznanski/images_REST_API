@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'images_app',
+    'rest_framework',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
@@ -129,3 +131,41 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+
+THUMBNAILS = {
+    'METADATA': {
+        'BACKEND': 'thumbnails.backends.metadata.DatabaseBackend',
+    },
+    'STORAGE': {
+        'BACKEND': 'django.core.files.storage.FileSystemStorage',
+        # You can also use Amazon S3 or any other Django storage backends
+    },
+    'SIZES': {
+        'small': {
+            'PROCESSORS': [
+                {'PATH': 'thumbnails.processors.resize', 'height': 200, 'method': 'stretch'},
+                # {'PATH': 'thumbnails.processors.crop', 'width': 80, 'height': 80}
+            ],
+            # 'POST_PROCESSORS': [
+            #     {
+            #         'PATH': 'thumbnails.post_processors.optimize',
+            #         'png_command': 'optipng -force -o7 "%(filename)s"',
+            #         'jpg_command': 'jpegoptim -f --strip-all "%(filename)s"',
+            #     },
+            # ],
+        },
+        'large': {
+            'PROCESSORS': [
+                {'PATH': 'thumbnails.processors.resize', 'height': 400},
+                # {'PATH': 'thumbnails.processors.flip', 'direction': 'horizontal'}
+            ],
+        },
+    }
+}
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'avatar': {'size': (50, 50), 'crop': True},
+    },
+}
