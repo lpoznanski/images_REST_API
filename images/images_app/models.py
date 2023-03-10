@@ -7,7 +7,13 @@ class Image(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     @property
-    def thumbnail(self):
+    def small(self):
         if self.image:
-            return get_thumbnail(self.image, '200', quality=90)
+            return get_thumbnail(self.image, 'x200', quality=90)
+        return None
+
+    @property
+    def large(self):
+        if self.image:
+            return get_thumbnail(self.image, 'x400', quality=90)
         return None
